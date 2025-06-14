@@ -1,0 +1,12 @@
+{
+  "language_servers": {
+    "pyright": {
+      "serverSettings": {},
+      "version": 1,
+      "languages": ["python"],
+      "argv": ["pyright-langserver", "--stdio"],
+      "mime_types": ["text/x-python", "text/python", "text/x-ipython"]
+    }
+  }
+}
+

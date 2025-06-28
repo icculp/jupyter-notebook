@@ -1,33 +1,32 @@
-version: '3'
 services:
   jupyter:
     image: icculp/jupyter-ai-notebook
-      #image: jupyter/datascience-notebook
+    container_name: jupyter
     ports:
       - "8888:8888"
     volumes:
       - ~/jupyter_data:/home/jovyan/work
-      - ./jupyer_server_config.py:/home/jovyan/.jupyter/jupyter_server_config.py
+      - ./jupyter_server_config.py:/home/jovyan/.jupyter/jupyter_server_config.py
       - ./lsp-settings.json:/home/jovyan/.jupyter/lsp-settings.json
+      - conda_envs:/opt/conda/envs
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      #- OPENAI_API_KEY=${OPENAI_API_KEY} 
-      #- PROVIDER_API_KEY=${PROVIDER_API_KEY}
-      #- JUPYTER_AI_DEFAULT_PROVIDER=openai
-      #- JUPYTER_AI_DEFAULT_MODEL=openai-chat:gpt-4o
-    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' --ServerApp.iopub_data_rate_limit=10000000
-    deploy:
-      resources:
-        limits:
-          memory: 32G  # Adjust based on your server's RAM
+    command: >
+      start-notebook.sh
+        --NotebookApp.token=''
+        --NotebookApp.password=''
+        --ServerApp.iopub_data_rate_limit=10000000
+    restart: unless-stopped
     networks:
       jupyter:
         ipv4_address: 192.168.34.10
 
+volumes:
+  conda_envs:
 
 networks:
   jupyter:
     driver: bridge
     ipam:
       config:
-       - subnet: 192.168.34.0/28
+        - subnet: 192.168.34.0/28

@@ -2,6 +2,7 @@ services:
   jupyter:
     image: icculp/jupyter-ai-notebook
     container_name: jupyter
+    shm_size: '16gb'
     ports:
       - "8888:8888"
     volumes:
